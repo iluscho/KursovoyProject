@@ -23,7 +23,7 @@ namespace KursovoyProject
         {
             InitializeComponent();
             detailText.Text = $"Детали: {item}";
-            listBoxDetail.ItemsSource = new List<string> { {item} };
+            listBoxDetail.ItemsSource = new List<string> { {item}, { item }, { item } };
         }
     }
 }

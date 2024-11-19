@@ -1,66 +1,90 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KursovoyProject
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private const string ConnectionString = "Server=192.168.147.54;Database=IlyaServiceTemp1;User Id=is;Password=1;";
+
         public MainWindow()
         {
             InitializeComponent();
-            listBox.ItemsSource = new List<string> { "Item 1", "Item 2", "Item 3", "Item 4" };
-            
+            LoadCarsFromDatabase();
+        }
+
+        private void LoadCarsFromDatabase(string searchTerm = "")
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+                        SELECT CONCAT(LicensePlate, ' - ', Brand, ' ', Model, ' (VIN: ', VIN, ')') AS CarDetails
+                        FROM ClientCars
+                        WHERE (@SearchTerm = '' OR LicensePlate LIKE '%' + @SearchTerm + '%' OR VIN LIKE '%' + @SearchTerm + '%')";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@SearchTerm", searchTerm);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    List<string> cars = new List<string>();
+
+                    while (reader.Read())
+                    {
+                        cars.Add(reader.GetString(0));
+                    }
+
+                    listBox.ItemsSource = cars;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}");
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchTerm = searchTextBox.Text.Trim();
+            LoadCarsFromDatabase(searchTerm);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var currentItems = listBox.ItemsSource as List<string>;
-            currentItems.Add($"Item {currentItems.Count + 1}");
-            listBox.ItemsSource = null;
-            listBox.ItemsSource = currentItems;
+            MessageBox.Show("Добавление новых записей в настоящее время не реализовано.");
         }
-
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = listBox.SelectedItem as string;
-            if (selectedItem != null)
+            var selectedCar = listBox.SelectedItem as string;
+            if (selectedCar != null)
             {
-                var currentItems = listBox.ItemsSource as List<string>;
-                currentItems.Remove(selectedItem);
-                listBox.ItemsSource = null;
-                listBox.ItemsSource = currentItems;
+                MessageBox.Show($"Удаление записи: {selectedCar}");
+            }
+            else
+            {
+                MessageBox.Show("Выберите запись для удаления.");
             }
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            listBox.ItemsSource = new List<string>();
+            searchTextBox.Clear();
+            LoadCarsFromDatabase();
         }
 
         private void ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var selectedItem = listBox.SelectedItem as string;
-            if (selectedItem != null)
+            var selectedCar = listBox.SelectedItem as string;
+            if (selectedCar != null)
             {
-                var detailWindow = new DetailWindow(selectedItem);
-                detailWindow.ShowDialog();
+                MessageBox.Show($"Вы выбрали: {selectedCar}");
             }
         }
     }
