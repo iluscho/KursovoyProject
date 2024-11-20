@@ -16,7 +16,7 @@
             <Button Content="Поиск" Width="65" Height="30" Background="#2196F3" Foreground="White" 
                     Click="SearchButton_Click"/>
             <Button Content="Клиенты" Width="65" Height="30" Background="#2196F3" Foreground="White" 
-                    Click="SearchButton_Click" HorizontalAlignment="Right"/>
+                    Click="SearchButton_Click" HorizontalAlignment="Right" Margin="3,0,0,0"/>
         </StackPanel>
 
         <ListBox Name="listBox" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" 
