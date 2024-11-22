@@ -38,20 +38,19 @@ namespace KursovoyProject
             }
         }
 
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private void CustomersWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            string searchTerm = searchTextBox.Text.Trim();
-            LoadCarsFromDatabase(searchTerm);
+            CustomersWindow window = new CustomersWindow();
+            window.Show();
+            this.Close();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            searchTextBox.Clear();
-            LoadCarsFromDatabase();
+            
         }
 
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedCar = listBox.SelectedItem as string;
 
@@ -67,10 +66,13 @@ namespace KursovoyProject
 
                         if (car != null)
                         {
-                            context.ClientCars.Remove(car);
-                            context.SaveChanges();
-                            MessageBox.Show("Запись успешно удалена.");
-                            LoadCarsFromDatabase(); // Обновляем список
+                            // Предположим, у вас есть форма или диалоговое окно для редактирования данных
+                            var editWindow = new EditCarWindow(car); // Передаём выбранный объект
+                            if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                            {
+                                context.SaveChanges(); // Сохраняем изменения в базе данных
+                                LoadCarsFromDatabase(); // Обновляем список
+                            }
                         }
                         else
                         {
@@ -80,14 +82,15 @@ namespace KursovoyProject
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка удаления записи: {ex.Message}");
+                    MessageBox.Show($"Ошибка редактирования записи: {ex.Message}");
                 }
             }
             else
             {
-                MessageBox.Show("Выберите запись для удаления.");
+                MessageBox.Show("Выберите запись для редактирования.");
             }
         }
+
 
         private void ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -99,6 +102,38 @@ namespace KursovoyProject
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var context = new IlyaServiceTemp1Entities())
+                {
+                    // Открываем окно добавления
+                    var newCar = new ClientCars(); // Создаём новый объект
+                    var addWindow = new AddCarWindow(newCar); // Передаём его в окно
+
+                    if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
+                    {
+                        context.ClientCars.Add(newCar); // Добавляем новую запись в контекст
+                        context.SaveChanges(); // Сохраняем изменения в базе данных
+                        MessageBox.Show("Новая запись успешно добавлена.");
+                        LoadCarsFromDatabase(); // Обновляем список
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка добавления записи: {ex.Message}");
+            }
+        }
+
+
+        private void searchTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            string searchTerm = searchTextBox.Text.Trim();
+            LoadCarsFromDatabase(searchTerm);
+        }
+
+        private void listBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
 
         }
