@@ -109,7 +109,8 @@ namespace KursovoyProject
                 {
                     // Открываем окно добавления
                     var newCar = new ClientCars(); // Создаём новый объект
-                    var addWindow = new AddCarWindow(newCar); // Передаём его в окно
+                    Clients client = new Clients();
+                    var addWindow = new AddCarWindow(newCar, client); // Передаём его в окно
 
                     if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
                     {

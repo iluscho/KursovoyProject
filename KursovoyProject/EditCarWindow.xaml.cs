@@ -61,6 +61,7 @@ namespace KursovoyProject
             DialogResult = true;
             Close();
         }
+
     }
 
 }

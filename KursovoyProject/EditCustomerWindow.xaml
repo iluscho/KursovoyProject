@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KursovoyProject"
         mc:Ignorable="d"
-        Title="Редактировать клиента" Height="350" Width="400">
+        Title="Редактировать клиента" Height="500" Width="700">
     <StackPanel Margin="10">
         <Label Content="ФИО:" />
         <TextBox Name="FullNameTextBox" />
@@ -20,8 +20,20 @@
         <TextBox Name="AdressTextBox" />
 
         <Label Content="Машины клиента:" />
-        <TextBox Name="CarsTextBox" />
 
+        <ListBox Name="listBox" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" 
+         Padding="10" FontFamily="Segoe UI" FontSize="14" Foreground="#333333" 
+         Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding}" VerticalAlignment="Center" Padding="5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Content="Добавить машину к клиенту" Margin="0,10,0,0" Click="AddClientCarButton_Click" />
         <Button Content="Сохранить" Margin="0,10,0,0" Click="SaveButton_Click" />
     </StackPanel>
 </Window>

@@ -20,10 +20,13 @@ namespace KursovoyProject
     public partial class AddCarWindow : Window
     {
         private ClientCars _car;
-        public AddCarWindow(ClientCars car)
+        private Clients _customer;
+        public AddCarWindow(ClientCars car, Clients customer)
         {
             InitializeComponent();
             _car = car;
+            _customer = customer; 
+            FullNameTextBox.Text = _customer.FullName;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -33,6 +36,7 @@ namespace KursovoyProject
                 using (var context = new IlyaServiceTemp1Entities())
                 {
                     // Ищем клиента по имени
+
                     var client = context.Clients.FirstOrDefault(c => c.FullName == FullNameTextBox.Text);
 
                     if (client != null)
@@ -55,8 +59,6 @@ namespace KursovoyProject
                     if (VINTextBox.Text.Length == 17)
                     {
                         _car.VIN = VINTextBox.Text;
-                        MessageBox.Show("Запись успешно подготовлена для добавления.");
-                        DialogResult = true; // Закрываем окно с подтверждением
                     }
                     else
                     {
@@ -66,7 +68,6 @@ namespace KursovoyProject
                     if (int.TryParse(YearTextBox.Text, out int year) && year > 1950 && year <= DateTime.Now.Year)
                     {
                         _car.Year = year;
-                        MessageBox.Show("Запись успешно подготовлена для добавления.");
                         DialogResult = true; // Закрываем окно с подтверждением
                     }
                     else
