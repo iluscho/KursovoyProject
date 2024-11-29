@@ -27,14 +27,11 @@ namespace KursovoyProject
             InitializeComponent();
             _car = car;
 
-            // Заполняем поля текущими данными
             LicensePlateTextBox.Text = _car.LicensePlate;
             BrandTextBox.Text = _car.Brand;
             ModelTextBox.Text = _car.Model;
             VINTextBox.Text = _car.VIN;
             YearTextBox.Text = Convert.ToString(_car.Year);
-
-            // Добавьте остальные поля
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -60,9 +57,8 @@ namespace KursovoyProject
             {
                 MessageBox.Show(ex.Message);
             }
-            // Добавьте обновление остальных полей
 
-            DialogResult = true; // Указываем, что изменения подтверждены
+            DialogResult = true;
             Close();
         }
     }

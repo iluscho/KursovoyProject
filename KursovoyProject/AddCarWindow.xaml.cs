@@ -49,7 +49,19 @@ namespace KursovoyProject
                     _car.LicensePlate = LicensePlateTextBox.Text;
                     _car.Brand = BrandTextBox.Text;
                     _car.Model = ModelTextBox.Text;
-                    _car.VIN = VINTextBox.Text;
+
+                    //_car.VIN = VINTextBox.Text;
+
+                    if (VINTextBox.Text.Length == 17)
+                    {
+                        _car.VIN = VINTextBox.Text;
+                        MessageBox.Show("Запись успешно подготовлена для добавления.");
+                        DialogResult = true; // Закрываем окно с подтверждением
+                    }
+                    else
+                    {
+                        MessageBox.Show("Введите корректный VIN автомобиля.");
+                    }
 
                     if (int.TryParse(YearTextBox.Text, out int year) && year > 1950 && year <= DateTime.Now.Year)
                     {

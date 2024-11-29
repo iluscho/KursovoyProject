@@ -73,12 +73,67 @@ namespace KursovoyProject
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                using (var context = new IlyaServiceTemp1Entities())
+                {
+                    // Открываем окно добавления
+                    var newCustomer = new Clients(); // Создаём новый объект
+                    var addWindow = new AddCustomerWindow(newCustomer); // Передаём его в окно
 
+                    if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
+                    {
+                        context.Clients.Add(newCustomer); // Добавляем новую запись в контекст
+                        context.SaveChanges(); // Сохраняем изменения в базе данных
+                        MessageBox.Show("Новая запись успешно добавлена.");
+                        LoadCustomersFromDatabase(); // Обновляем список
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка добавления записи: {ex.Message}");
+            }
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedCustomer = listBox.SelectedItem as string;
 
+            if (selectedCustomer != null)
+            {
+                var fullName = selectedCustomer.Split(new[] { " - " }, StringSplitOptions.None)[0];
+
+                try
+                {
+                    using (var context = new IlyaServiceTemp1Entities())
+                    {
+                        var customer = context.Clients.FirstOrDefault(c => c.FullName == fullName);
+
+                        if (customer != null)
+                        {
+                            var editWindow = new EditCustomerWindow(customer); // Передаём выбранный объект
+                            if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                            {
+                                context.SaveChanges(); // Сохраняем изменения в базе данных
+                                LoadCustomersFromDatabase(); // Обновляем список
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Запись не найдена.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка редактирования записи: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите запись для редактирования.");
+            }
         }
     }
 }

@@ -22,8 +22,6 @@
         <Label Content="Год:" />
         <TextBox Name="YearTextBox" />
 
-        <!-- Добавьте остальные поля -->
-
         <Button Content="Сохранить" Margin="0,10,0,0" Click="SaveButton_Click" />
     </StackPanel>
 </Window>

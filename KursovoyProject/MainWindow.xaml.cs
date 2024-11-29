@@ -26,7 +26,7 @@ namespace KursovoyProject
 
                     // Форматируем строку уже после того, как данные загружены
                     var formattedCars = carsQuery
-                        .Select(car => $"{car.LicensePlate} - {car.Brand} {car.Model} (VIN: {car.VIN})")
+                        .Select(car => $"{car.LicensePlate} - {car.Brand} {car.Model} (VIN: {car.VIN})  (ID: {car.CarID}) ")
                         .ToList();
 
                     listBox.ItemsSource = formattedCars;
