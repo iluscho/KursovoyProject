@@ -98,6 +98,11 @@ namespace KursovoyProject
             if (selectedCar != null)
             {
                 MessageBox.Show($"Вы выбрали: {selectedCar}");
+                string id = selectedCar.Split(' ').FirstOrDefault(p => p.StartsWith("ID:"))?.Replace("ID:", "").Trim('(', ')');
+                Console.WriteLine($"ID: {id}");
+                int idint = Convert.ToInt32(id);
+                Window VisitsWindow = new VisitsWindow(idint);
+                VisitsWindow.Show();
             }
         }
 
