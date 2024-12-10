@@ -98,11 +98,34 @@ namespace KursovoyProject
             if (selectedCar != null)
             {
                 MessageBox.Show($"Вы выбрали: {selectedCar}");
-                string id = selectedCar.Split(' ').FirstOrDefault(p => p.StartsWith("ID:"))?.Replace("ID:", "").Trim('(', ')');
-                Console.WriteLine($"ID: {id}");
-                int idint = Convert.ToInt32(id);
-                Window VisitsWindow = new VisitsWindow(idint);
-                VisitsWindow.Show();
+
+                // Извлекаем подстроку, содержащую "ID:"
+                int startIndex = selectedCar.IndexOf("ID:") + 3;
+                if (startIndex >= 3) // Убедимся, что "ID:" найден
+                {
+                    // Находим конец числа
+                    int endIndex = selectedCar.IndexOf(')', startIndex);
+                    string id = selectedCar.Substring(startIndex, endIndex - startIndex).Trim();
+
+                    MessageBox.Show($"ID: {id}");
+
+                    // Преобразуем в число и открываем новое окно
+                    if (int.TryParse(id, out int idint))
+                    {
+                        Window VisitsWindow = new VisitsWindow(idint);
+                        VisitsWindow.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка: ID не является числом.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка: ID не найден.");
+                }
+
+
             }
         }
 
