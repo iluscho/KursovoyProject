@@ -61,7 +61,7 @@ namespace KursovoyProject
 
         private void listBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            EditButton_Click(sender, e);
         }
 
         private void AutoWindowButton_Click(object sender, RoutedEventArgs e)

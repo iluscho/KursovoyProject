@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,19 +19,26 @@ namespace KursovoyProject
     /// <summary>
     /// Логика взаимодействия для EditCustomerWindow.xaml
     /// </summary>
-    public partial class EditCustomerWindow : Window
+    public partial class EditVisitWindow : Window
     {
-        private Clients _customer;
-        public EditCustomerWindow(Clients customer)
+        private CarVisits _visit;
+        public EditVisitWindow(CarVisits visit)
         {
             InitializeComponent();
-            _customer = customer;
+            var context = new IlyaServiceTemp1Entities();
+            _visit = visit;
 
-            FullNameTextBox.Text = _customer.FullName;
-            PhoneTextBox.Text = _customer.Phone;
-            EmailTextBox.Text = _customer.Email;
-            AdressTextBox.Text = _customer.Address;
-            LoadCarsFromDatabase(customer);
+            var car = context.ClientCars.FirstOrDefault(c => c.CarID == _visit.CarID);
+
+            CarIDTextBox.Text = car.VIN;
+            EmpIDTextBox.Text = Convert.ToString(_visit.EmpID);
+            VisitDateTextBox.Text = Convert.ToString(_visit.VisitDate);
+            DescTextBox.Text = _visit.Description;
+            //CostTextBox.Text = _visit.Cost;
+            StatusTextBox.Text = _visit.Status;
+            listBox = _visit.RepairParts;
+
+            LoadVisitsFromDatabase(visit);
 
         }
 
@@ -53,7 +61,7 @@ namespace KursovoyProject
             DialogResult = true; // Указываем, что изменения подтверждены
             Close();
         }
-        private void LoadCarsFromDatabase(Clients customer)
+        private void LoadVisitsFromDatabase(Clients customer)
         {
             try
             {

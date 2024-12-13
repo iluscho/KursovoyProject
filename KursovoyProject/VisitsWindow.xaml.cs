@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,10 +20,12 @@ namespace KursovoyProject
     /// </summary>
     public partial class VisitsWindow : Window
     {
+        private int _CarID = 0;
         public VisitsWindow(int CarID)
         {
             InitializeComponent();
             LoadVisitsFromDatabase(CarID);
+            _CarID = CarID;
         }
 
         private void LoadVisitsFromDatabase(int CarID)
@@ -42,7 +45,8 @@ namespace KursovoyProject
                         .ToList();
 
                     listBox.ItemsSource = formattedVisits;
-                    searchTextBox.Text = "ТУТ НАЗВАНИЕ МАШИНЫ ВСТАВИТЬ";
+                    var car = context.ClientCars.FirstOrDefault(c => c.CarID == CarID);
+                    nameTextBox.Text = car.LicensePlate;
                 }
             }
             catch (Exception ex)
@@ -70,16 +74,16 @@ namespace KursovoyProject
                 using (var context = new IlyaServiceTemp1Entities())
                 {
                     // Открываем окно добавления
-                    var newCustomer = new Clients(); // Создаём новый объект
-                    var addWindow = new AddCustomerWindow(newCustomer); // Передаём его в окно
+                    var newVisit = new CarVisits(); // Создаём новый объект
+                    var addWindow = new AddVisitWindow(newVisit); // Передаём его в окно
 
                     if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
                     {
-                        context.Clients.Add(newCustomer); // Добавляем новую запись в контекст
+                        context.CarVisits.Add(newVisit); // Добавляем новую запись в контекст
                         context.SaveChanges(); // Сохраняем изменения в базе данных
                         MessageBox.Show("Новая запись успешно добавлена.");
-
-                        int CarID = 0; //ИЗМЕНИТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        
+                        int CarID = _CarID;
 
                         LoadVisitsFromDatabase(CarID); // Обновляем список
                     }
