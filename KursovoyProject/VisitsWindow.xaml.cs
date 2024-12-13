@@ -57,7 +57,7 @@ namespace KursovoyProject
 
         private void listBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            EditButton_Click(sender, e);
         }
 
         private void AutoWindowButton_Click(object sender, RoutedEventArgs e)
@@ -114,24 +114,30 @@ namespace KursovoyProject
                             int endIndex = selectedVisit.IndexOf(')', startIndex);
                             string id = selectedVisit.Substring(startIndex, endIndex - startIndex).Trim();
 
-                            MessageBox.Show($"ID: {id}");
-
-                            var visit = context.CarVisits.FirstOrDefault(c => c.VisitID == (Convert.ToInt32(id)));
-
-                            if (visit != null)
+                            if (int.TryParse(id, out int VisitID))
                             {
-                                var editWindow = new EditVisitWindow(visit); // Передаём выбранный объект
-                                if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                                // Используем VisitID, который уже преобразован в int
+                                var visit = context.CarVisits.FirstOrDefault(c => c.VisitID == VisitID);
+
+                                if (visit != null)
                                 {
-                                    context.SaveChanges(); // Сохраняем изменения в базе данных
-                                    int VisitID = Convert.ToInt32(id);
-                                    LoadVisitsFromDatabase(VisitID); // Обновляем список
+                                    var editWindow = new EditVisitWindow(visit); // Передаём выбранный объект
+                                    if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                                    {
+                                        context.SaveChanges(); // Сохраняем изменения в базе данных
+                                        LoadVisitsFromDatabase(VisitID); // Обновляем список
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Запись не найдена.");
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("Запись не найдена.");
+                                MessageBox.Show("Некорректный формат ID.");
                             }
+
                         }
                     }
                 }
