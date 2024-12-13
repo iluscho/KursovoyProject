@@ -91,13 +91,11 @@ namespace KursovoyProject
             }
         }
 
-
         private void ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var selectedCar = listBox.SelectedItem as string;
             if (selectedCar != null)
             {
-                MessageBox.Show($"Вы выбрали: {selectedCar}");
 
                 // Извлекаем подстроку, содержащую "ID:"
                 int startIndex = selectedCar.IndexOf("ID:") + 3;
@@ -107,7 +105,6 @@ namespace KursovoyProject
                     int endIndex = selectedCar.IndexOf(')', startIndex);
                     string id = selectedCar.Substring(startIndex, endIndex - startIndex).Trim();
 
-                    MessageBox.Show($"ID: {id}");
 
                     // Преобразуем в число и открываем новое окно
                     if (int.TryParse(id, out int idint))

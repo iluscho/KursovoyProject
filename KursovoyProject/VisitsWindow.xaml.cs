@@ -41,7 +41,7 @@ namespace KursovoyProject
 
                     // Форматируем строку уже после того, как данные загружены
                     var formattedVisits = visitsQuery
-                        .Select(visit => $"{visit.CarID} {visit.VisitID} {visit.VisitDate} {visit.Description} {visit.Cost} {visit.EmpID}")
+                        .Select(visit => $"{visit.CarID} {visit.VisitDate} {visit.Description} {visit.Cost} {visit.EmpID} (ID: {visit.VisitID})")
                         .ToList();
 
                     listBox.ItemsSource = formattedVisits;
@@ -97,31 +97,41 @@ namespace KursovoyProject
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedCustomer = listBox.SelectedItem as string;
+            var selectedVisit = listBox.SelectedItem as string;
 
-            if (selectedCustomer != null)
+            if (selectedVisit != null)
             {
-                var fullName = selectedCustomer.Split(new[] { " - " }, StringSplitOptions.None)[0];
+                //var fullName = selectedVisit.Split(new[] { " - " }, StringSplitOptions.None)[0];
 
                 try
                 {
                     using (var context = new IlyaServiceTemp1Entities())
                     {
-                        var customer = context.Clients.FirstOrDefault(c => c.FullName == fullName);
+                        int startIndex = selectedVisit.IndexOf("ID:") + 3;
+                        if (startIndex >= 3) // Убедимся, что "ID:" найден
+                        {
+                            // Находим конец числа
+                            int endIndex = selectedVisit.IndexOf(')', startIndex);
+                            string id = selectedVisit.Substring(startIndex, endIndex - startIndex).Trim();
 
-                        if (customer != null)
-                        {
-                            var editWindow = new EditCustomerWindow(customer); // Передаём выбранный объект
-                            if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                            MessageBox.Show($"ID: {id}");
+
+                            var visit = context.CarVisits.FirstOrDefault(c => c.VisitID == (Convert.ToInt32(id)));
+
+                            if (visit != null)
                             {
-                                context.SaveChanges(); // Сохраняем изменения в базе данных
-                                int CarID = 0; //ИЗМЕНИТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                LoadVisitsFromDatabase(CarID); // Обновляем список
+                                var editWindow = new EditVisitWindow(visit); // Передаём выбранный объект
+                                if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                                {
+                                    context.SaveChanges(); // Сохраняем изменения в базе данных
+                                    int VisitID = Convert.ToInt32(id);
+                                    LoadVisitsFromDatabase(VisitID); // Обновляем список
+                                }
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Запись не найдена.");
+                            else
+                            {
+                                MessageBox.Show("Запись не найдена.");
+                            }
                         }
                     }
                 }

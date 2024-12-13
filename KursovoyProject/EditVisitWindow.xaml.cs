@@ -36,7 +36,6 @@ namespace KursovoyProject
             DescTextBox.Text = _visit.Description;
             //CostTextBox.Text = _visit.Cost;
             StatusTextBox.Text = _visit.Status;
-            listBox = _visit.RepairParts;
 
             LoadVisitsFromDatabase(visit);
 
@@ -46,10 +45,12 @@ namespace KursovoyProject
         {
             try
             {
-                _customer.FullName = FullNameTextBox.Text;
-                _customer.Phone = PhoneTextBox.Text;
-                _customer.Email = EmailTextBox.Text;
-                _customer.Address = AdressTextBox.Text;
+                //_visit.EmpID = EmpIDTextBox.Text;
+                //_visit.VisitDate = VisitDateTextBox.Text;
+                //_visit.Description = DescTextBox.Text;
+                //_visit.Cost = CostTextBox.Text;
+                _visit.Status = StatusTextBox.Text;
+                //_visit.RepairParts = RepairPartsListBox;
 
                 MessageBox.Show("Запись успешно обновлена.");
             }
@@ -61,22 +62,22 @@ namespace KursovoyProject
             DialogResult = true; // Указываем, что изменения подтверждены
             Close();
         }
-        private void LoadVisitsFromDatabase(Clients customer)
+        private void LoadVisitsFromDatabase(CarVisits visit)
         {
             try
             {
                 using (var context = new IlyaServiceTemp1Entities())
                 {
-                    var carsQuery = context.ClientCars
-                        .Where(car => car.ClientID == customer.ClientID)
+                    var visitsQuery = context.CarVisits
+                        .Where(v => v.VisitID == visit.VisitID)
                         .ToList(); // Загружаем все записи в память
 
                     // Форматируем строку уже после того, как данные загружены
-                    var formattedCars = carsQuery
-                        .Select(car => $"{car.LicensePlate} - {car.Brand} {car.Model} (VIN: {car.VIN})  (ID: {car.CarID}) ")
+                    var formattedVisits = visitsQuery
+                        .Select(v => $"{v.VisitID} - {v.VisitDate} {v.EmpID} ({v.CarID})")
                         .ToList();
 
-                    listBox.ItemsSource = formattedCars;
+                    listBox.ItemsSource = formattedVisits;
                 }
             }
             catch (Exception ex)
@@ -85,29 +86,29 @@ namespace KursovoyProject
             }
         }
 
-        private void AddClientCarButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                using (var context = new IlyaServiceTemp1Entities())
-                {
-                    // Открываем окно добавления
-                    var newCar = new ClientCars(); // Создаём новый объект
-                    var addWindow = new AddCarWindow(newCar, _customer); // Передаём его в окно
+        //private void AddClientCarButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        using (var context = new IlyaServiceTemp1Entities())
+        //        {
+        //            // Открываем окно добавления
+        //            var newVisit = new CarVisits(); // Создаём новый объект
+        //            var addWindow = new AddVisitWindow(newVisit, _visit); // Передаём его в окно
 
-                    if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
-                    {
-                        context.ClientCars.Add(newCar); // Добавляем новую запись в контекст
-                        context.SaveChanges(); // Сохраняем изменения в базе данных
-                        MessageBox.Show("Новая запись успешно добавлена.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка добавления записи: {ex.Message}");
-            }
-        }
+        //            if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
+        //            {
+        //                context.ClientCars.Add(newCar); // Добавляем новую запись в контекст
+        //                context.SaveChanges(); // Сохраняем изменения в базе данных
+        //                MessageBox.Show("Новая запись успешно добавлена.");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Ошибка добавления записи: {ex.Message}");
+        //    }
+        //}
 
         private void listBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
