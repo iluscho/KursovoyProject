@@ -101,7 +101,7 @@ namespace KursovoyProject
 
             if (selectedVisit != null)
             {
-                //var fullName = selectedVisit.Split(new[] { " - " }, StringSplitOptions.None)[0];
+                //var fullName = selectedVisit.Split(new[] { " - " }, StringSplitOptions.None)[0];0
 
                 try
                 {
