@@ -41,7 +41,7 @@ namespace KursovoyProject
 
                     // Форматируем строку уже после того, как данные загружены
                     var formattedVisits = visitsQuery
-                        .Select(visit => $"{visit.CarID} {visit.VisitDate} {visit.Description} {visit.Cost} {visit.EmpID} (ID: {visit.VisitID})")
+                        .Select(visit => $"ID машины: {visit.CarID} {visit.VisitDate} {visit.Description} Цена: {visit.Cost} ID работника: {visit.EmpID} (ID: {visit.VisitID})")
                         .ToList();
 
                     listBox.ItemsSource = formattedVisits;

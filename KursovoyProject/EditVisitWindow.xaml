@@ -42,8 +42,10 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+        
         <Button Content="Добавить деталь для ремонта" Margin="0,10,0,0" Click="AddRepairPartButton_Click"/>
-        <Button Content="Сохранить" Margin="0,10,0,0" Click="SaveButton_Click" />
+        <Button Content="Удалить деталь для ремонта" Margin="0,10,0,0" Click="RemoveRepairPartButton_Click"/>
+        
+        <Button Content="Сохранить" Margin="0,30,0,0" Click="SaveButton_Click" />
     </StackPanel>
 </Window>

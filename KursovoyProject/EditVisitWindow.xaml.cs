@@ -77,6 +77,9 @@ namespace KursovoyProject
                     listBox.ItemsSource = formattedParts;
 
                     var totalCost = partsUsed.Sum(p => p.EstimatedCost);
+                    var thisvisit = context.CarVisits.FirstOrDefault(p => p.VisitID == _visit.VisitID);
+                    thisvisit.Cost = totalCost;
+                    context.SaveChanges();
                     CostTextBox.Text = totalCost.ToString("F2");
                 }
             }
@@ -101,6 +104,43 @@ namespace KursovoyProject
             {
                 MessageBox.Show($"Ошибка добавления запчасти: {ex.Message}");
             }
+        }
+
+        private void RemoveRepairPartButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedPart = listBox.SelectedItem as string;
+
+            if (selectedPart != null)
+            {
+                try
+                {
+                    using (var context = new IlyaServiceTemp1Entities())
+                    {
+                        int startIndex = selectedPart.IndexOf("ID:") + 3;
+                        if (startIndex >= 3) // Убедимся, что "ID:" найден
+                        {
+                            // Находим конец числа
+                            int endIndex = selectedPart.IndexOf(')', startIndex);
+                            string id = selectedPart.Substring(startIndex, endIndex - startIndex).Trim();
+                            int idint = Convert.ToInt32(id);
+                            var parttoremove = context.RepairParts.FirstOrDefault(r => r.RepairPartID == idint);
+                            context.RepairParts.Remove(parttoremove);
+                            context.SaveChanges();
+                            LoadPartsForVisit();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка редактирования записи: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите запись для редактирования.");
+            }
+
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
