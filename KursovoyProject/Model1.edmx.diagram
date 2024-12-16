@@ -4,21 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a2ecabacf9594f6c89ec84a2d4581b88" Name="Diagram1">
-        <EntityTypeShape EntityType="IlyaServiceTemp1Model.AvailableParts" Width="1.5" PointX="7.5" PointY="5.5" IsExpanded="true" />
+      <Diagram DiagramId="b5bbfebf1fa14449880a97971b9c3dc9" Name="Diagram1">
+        <EntityTypeShape EntityType="IlyaServiceTemp1Model.AvailableParts" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="IlyaServiceTemp1Model.CarVisits" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="IlyaServiceTemp1Model.ClientCars" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="IlyaServiceTemp1Model.Clients" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="IlyaServiceTemp1Model.Employees" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="IlyaServiceTemp1Model.PartsUsed" Width="1.5" PointX="9.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IlyaServiceTemp1Model.Employees" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="IlyaServiceTemp1Model.RepairParts" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="IlyaServiceTemp1Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <AssociationConnector Association="IlyaServiceTemp1Model.FK__PartsUsed__PartI__4AB81AF0" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="IlyaServiceTemp1Model.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="IlyaServiceTemp1Model.FK_RepairParts_AvailableParts" ManuallyRouted="false" />
         <AssociationConnector Association="IlyaServiceTemp1Model.FK__CarVisits__CarID__403A8C7D" ManuallyRouted="false" />
         <AssociationConnector Association="IlyaServiceTemp1Model.FK__CarVisits__EmpID__3F466844" ManuallyRouted="false" />
         <AssociationConnector Association="IlyaServiceTemp1Model.FK__RepairPar__Visit__440B1D61" ManuallyRouted="false" />
         <AssociationConnector Association="IlyaServiceTemp1Model.FK__ClientCar__Clien__3C69FB99" ManuallyRouted="false" />
-        <AssociationConnector Association="IlyaServiceTemp1Model.FK__PartsUsed__Repai__49C3F6B7" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

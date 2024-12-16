@@ -28,6 +28,6 @@
         </ListBox>
 
         <!-- Кнопка для сохранения -->
-        <Button Content="Сохранить" Margin="0,10,0,0" Click="SaveButton"/>
+        <Button Content="Сохранить" Margin="0,10,0,0" Click="SaveButton_Click"/>
     </StackPanel>
 </Window>

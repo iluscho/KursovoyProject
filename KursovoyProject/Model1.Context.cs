@@ -30,7 +30,6 @@ namespace KursovoyProject
         public virtual DbSet<ClientCars> ClientCars { get; set; }
         public virtual DbSet<Clients> Clients { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
-        public virtual DbSet<PartsUsed> PartsUsed { get; set; }
         public virtual DbSet<RepairParts> RepairParts { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }

@@ -14,20 +14,13 @@ namespace KursovoyProject
     
     public partial class RepairParts
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public RepairParts()
-        {
-            this.PartsUsed = new HashSet<PartsUsed>();
-        }
-    
         public int RepairPartID { get; set; }
         public int VisitID { get; set; }
-        public string PartName { get; set; }
         public int Quantity { get; set; }
         public decimal EstimatedCost { get; set; }
+        public Nullable<int> PartID { get; set; }
     
+        public virtual AvailableParts AvailableParts { get; set; }
         public virtual CarVisits CarVisits { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PartsUsed> PartsUsed { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace KursovoyProject
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AvailableParts()
         {
-            this.PartsUsed = new HashSet<PartsUsed>();
+            this.RepairParts = new HashSet<RepairParts>();
         }
     
         public int PartID { get; set; }
@@ -26,6 +26,6 @@ namespace KursovoyProject
         public decimal Price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PartsUsed> PartsUsed { get; set; }
+        public virtual ICollection<RepairParts> RepairParts { get; set; }
     }
 }

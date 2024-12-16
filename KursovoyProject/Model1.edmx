@@ -57,25 +57,15 @@
           <Property Name="Pass" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
         </EntityType>
-        <EntityType Name="PartsUsed">
-          <Key>
-            <PropertyRef Name="PartUsedID" />
-          </Key>
-          <Property Name="PartUsedID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RepairPartID" Type="int" Nullable="false" />
-          <Property Name="PartID" Type="int" Nullable="false" />
-          <Property Name="QuantityUsed" Type="int" Nullable="false" />
-          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-        </EntityType>
         <EntityType Name="RepairParts">
           <Key>
             <PropertyRef Name="RepairPartID" />
           </Key>
           <Property Name="RepairPartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VisitID" Type="int" Nullable="false" />
-          <Property Name="PartName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="EstimatedCost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="PartID" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -123,30 +113,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PartsUsed__PartI__4AB81AF0">
-          <End Role="AvailableParts" Type="Self.AvailableParts" Multiplicity="1" />
-          <End Role="PartsUsed" Type="Self.PartsUsed" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AvailableParts">
-              <PropertyRef Name="PartID" />
-            </Principal>
-            <Dependent Role="PartsUsed">
-              <PropertyRef Name="PartID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PartsUsed__Repai__49C3F6B7">
-          <End Role="RepairParts" Type="Self.RepairParts" Multiplicity="1" />
-          <End Role="PartsUsed" Type="Self.PartsUsed" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RepairParts">
-              <PropertyRef Name="RepairPartID" />
-            </Principal>
-            <Dependent Role="PartsUsed">
-              <PropertyRef Name="RepairPartID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__RepairPar__Visit__440B1D61">
           <End Role="CarVisits" Type="Self.CarVisits" Multiplicity="1" />
           <End Role="RepairParts" Type="Self.RepairParts" Multiplicity="*" />
@@ -159,13 +125,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RepairParts_AvailableParts">
+          <End Role="AvailableParts" Type="Self.AvailableParts" Multiplicity="0..1" />
+          <End Role="RepairParts" Type="Self.RepairParts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvailableParts">
+              <PropertyRef Name="PartID" />
+            </Principal>
+            <Dependent Role="RepairParts">
+              <PropertyRef Name="PartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище IlyaServiceTemp1ModelContainer">
           <EntitySet Name="AvailableParts" EntityType="Self.AvailableParts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarVisits" EntityType="Self.CarVisits" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientCars" EntityType="Self.ClientCars" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PartsUsed" EntityType="Self.PartsUsed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepairParts" EntityType="Self.RepairParts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__CarVisits__CarID__403A8C7D" Association="Self.FK__CarVisits__CarID__403A8C7D">
@@ -180,16 +157,12 @@
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ClientCars" EntitySet="ClientCars" />
           </AssociationSet>
-          <AssociationSet Name="FK__PartsUsed__PartI__4AB81AF0" Association="Self.FK__PartsUsed__PartI__4AB81AF0">
-            <End Role="AvailableParts" EntitySet="AvailableParts" />
-            <End Role="PartsUsed" EntitySet="PartsUsed" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PartsUsed__Repai__49C3F6B7" Association="Self.FK__PartsUsed__Repai__49C3F6B7">
-            <End Role="RepairParts" EntitySet="RepairParts" />
-            <End Role="PartsUsed" EntitySet="PartsUsed" />
-          </AssociationSet>
           <AssociationSet Name="FK__RepairPar__Visit__440B1D61" Association="Self.FK__RepairPar__Visit__440B1D61">
             <End Role="CarVisits" EntitySet="CarVisits" />
+            <End Role="RepairParts" EntitySet="RepairParts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairParts_AvailableParts" Association="Self.FK_RepairParts_AvailableParts">
+            <End Role="AvailableParts" EntitySet="AvailableParts" />
             <End Role="RepairParts" EntitySet="RepairParts" />
           </AssociationSet>
         </EntityContainer>
@@ -206,7 +179,7 @@
           <Property Name="PartName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="StockQuantity" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="PartsUsed" Relationship="Self.FK__PartsUsed__PartI__4AB81AF0" FromRole="AvailableParts" ToRole="PartsUsed" />
+          <NavigationProperty Name="RepairParts" Relationship="Self.FK_RepairParts_AvailableParts" FromRole="AvailableParts" ToRole="RepairParts" />
         </EntityType>
         <EntityType Name="CarVisits">
           <Key>
@@ -258,29 +231,17 @@
           <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CarVisits" Relationship="Self.FK__CarVisits__EmpID__3F466844" FromRole="Employees" ToRole="CarVisits" />
         </EntityType>
-        <EntityType Name="PartsUsed">
-          <Key>
-            <PropertyRef Name="PartUsedID" />
-          </Key>
-          <Property Name="PartUsedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RepairPartID" Type="Int32" Nullable="false" />
-          <Property Name="PartID" Type="Int32" Nullable="false" />
-          <Property Name="QuantityUsed" Type="Int32" Nullable="false" />
-          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="AvailableParts" Relationship="Self.FK__PartsUsed__PartI__4AB81AF0" FromRole="PartsUsed" ToRole="AvailableParts" />
-          <NavigationProperty Name="RepairParts" Relationship="Self.FK__PartsUsed__Repai__49C3F6B7" FromRole="PartsUsed" ToRole="RepairParts" />
-        </EntityType>
         <EntityType Name="RepairParts">
           <Key>
             <PropertyRef Name="RepairPartID" />
           </Key>
           <Property Name="RepairPartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VisitID" Type="Int32" Nullable="false" />
-          <Property Name="PartName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="EstimatedCost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="PartID" Type="Int32" />
+          <NavigationProperty Name="AvailableParts" Relationship="Self.FK_RepairParts_AvailableParts" FromRole="RepairParts" ToRole="AvailableParts" />
           <NavigationProperty Name="CarVisits" Relationship="Self.FK__RepairPar__Visit__440B1D61" FromRole="RepairParts" ToRole="CarVisits" />
-          <NavigationProperty Name="PartsUsed" Relationship="Self.FK__PartsUsed__Repai__49C3F6B7" FromRole="RepairParts" ToRole="PartsUsed" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -292,14 +253,14 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK__PartsUsed__PartI__4AB81AF0">
-          <End Role="AvailableParts" Type="Self.AvailableParts" Multiplicity="1" />
-          <End Role="PartsUsed" Type="Self.PartsUsed" Multiplicity="*" />
+        <Association Name="FK_RepairParts_AvailableParts">
+          <End Role="AvailableParts" Type="Self.AvailableParts" Multiplicity="0..1" />
+          <End Role="RepairParts" Type="Self.RepairParts" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AvailableParts">
               <PropertyRef Name="PartID" />
             </Principal>
-            <Dependent Role="PartsUsed">
+            <Dependent Role="RepairParts">
               <PropertyRef Name="PartID" />
             </Dependent>
           </ReferentialConstraint>
@@ -352,30 +313,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PartsUsed__Repai__49C3F6B7">
-          <End Role="RepairParts" Type="Self.RepairParts" Multiplicity="1" />
-          <End Role="PartsUsed" Type="Self.PartsUsed" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RepairParts">
-              <PropertyRef Name="RepairPartID" />
-            </Principal>
-            <Dependent Role="PartsUsed">
-              <PropertyRef Name="RepairPartID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="IlyaServiceTemp1Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AvailableParts" EntityType="Self.AvailableParts" />
           <EntitySet Name="CarVisits" EntityType="Self.CarVisits" />
           <EntitySet Name="ClientCars" EntityType="Self.ClientCars" />
           <EntitySet Name="Clients" EntityType="Self.Clients" />
           <EntitySet Name="Employees" EntityType="Self.Employees" />
-          <EntitySet Name="PartsUsed" EntityType="Self.PartsUsed" />
           <EntitySet Name="RepairParts" EntityType="Self.RepairParts" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <AssociationSet Name="FK__PartsUsed__PartI__4AB81AF0" Association="Self.FK__PartsUsed__PartI__4AB81AF0">
+          <AssociationSet Name="FK_RepairParts_AvailableParts" Association="Self.FK_RepairParts_AvailableParts">
             <End Role="AvailableParts" EntitySet="AvailableParts" />
-            <End Role="PartsUsed" EntitySet="PartsUsed" />
+            <End Role="RepairParts" EntitySet="RepairParts" />
           </AssociationSet>
           <AssociationSet Name="FK__CarVisits__CarID__403A8C7D" Association="Self.FK__CarVisits__CarID__403A8C7D">
             <End Role="ClientCars" EntitySet="ClientCars" />
@@ -392,10 +340,6 @@
           <AssociationSet Name="FK__ClientCar__Clien__3C69FB99" Association="Self.FK__ClientCar__Clien__3C69FB99">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ClientCars" EntitySet="ClientCars" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PartsUsed__Repai__49C3F6B7" Association="Self.FK__PartsUsed__Repai__49C3F6B7">
-            <End Role="RepairParts" EntitySet="RepairParts" />
-            <End Role="PartsUsed" EntitySet="PartsUsed" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -461,25 +405,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PartsUsed">
-            <EntityTypeMapping TypeName="IlyaServiceTemp1Model.PartsUsed">
-              <MappingFragment StoreEntitySet="PartsUsed">
-                <ScalarProperty Name="PartUsedID" ColumnName="PartUsedID" />
-                <ScalarProperty Name="RepairPartID" ColumnName="RepairPartID" />
-                <ScalarProperty Name="PartID" ColumnName="PartID" />
-                <ScalarProperty Name="QuantityUsed" ColumnName="QuantityUsed" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RepairParts">
             <EntityTypeMapping TypeName="IlyaServiceTemp1Model.RepairParts">
               <MappingFragment StoreEntitySet="RepairParts">
                 <ScalarProperty Name="RepairPartID" ColumnName="RepairPartID" />
                 <ScalarProperty Name="VisitID" ColumnName="VisitID" />
-                <ScalarProperty Name="PartName" ColumnName="PartName" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="EstimatedCost" ColumnName="EstimatedCost" />
+                <ScalarProperty Name="PartID" ColumnName="PartID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
