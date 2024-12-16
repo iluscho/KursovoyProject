@@ -17,10 +17,13 @@ namespace KursovoyProject
     public partial class AddVisitWindow : Window
     {
         private CarVisits _visit;
-        public AddVisitWindow(CarVisits visit)
+        int _carID;
+        public AddVisitWindow(CarVisits visit, int carID)
         {
             InitializeComponent();
             _visit = visit;
+            _carID = carID;
+            CarIDTextBox.Text = Convert.ToString(_carID);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -30,7 +33,6 @@ namespace KursovoyProject
                 using (var context = new IlyaServiceTemp1Entities())
                 {
                     var car = context.ClientCars.FirstOrDefault(c => c.CarID == _visit.CarID);
-
                     car.VIN = CarIDTextBox.Text;
                     //_visit.EmpID = EmpIDTextBox.Text;
                     //_visit.VisitDate = VisitDateTextBox.Text;

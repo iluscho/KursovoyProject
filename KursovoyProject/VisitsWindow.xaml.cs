@@ -75,7 +75,8 @@ namespace KursovoyProject
                 {
                     // Открываем окно добавления
                     var newVisit = new CarVisits(); // Создаём новый объект
-                    var addWindow = new AddVisitWindow(newVisit); // Передаём его в окно
+                    newVisit.CarID = _CarID;
+                    var addWindow = new AddVisitWindow(newVisit, _CarID); // Передаём его в окно
 
                     if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
                     {
