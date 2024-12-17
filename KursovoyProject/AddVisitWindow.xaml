@@ -19,14 +19,9 @@
         <Label Content="Desc:" />
         <TextBox Name="DescTextBox"/>
 
-        <Label Content="Cost:" />
-        <TextBox Name="CostTextBox"/>
-
         <Label Content="Status:" />
         <TextBox Name="StatusTextBox"/>
 
-        <Label Content="RepairParts:" />
-        <ListBox Name="RepairPartsListBox"/>
 
         <Button Content="Сохранить" Margin="0,10,0,0" Click="SaveButton_Click" />
     </StackPanel>
