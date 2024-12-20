@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:KursovoyProject"
         mc:Ignorable="d"
         Title="Редактировать автомобиль" Height="350" Width="400">
+    
     <StackPanel Margin="10">
         <Label Content="Госномер:" />
         <TextBox Name="LicensePlateTextBox" />
