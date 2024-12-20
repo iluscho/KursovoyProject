@@ -1,11 +1,10 @@
-using KursovoyProject;
-using Xunit;
+using NUnit.Framework;
 
-namespace TestProject1
+namespace Test
 {
     public class EditCarWindowTests
     {
-        [Fact]
+        [Test]
         public void FieldsTest()
         {
             
@@ -20,11 +19,12 @@ namespace TestProject1
 
             var window = new EditCarWindow(car);
 
-            Assert.Equal("A123BC", window.LicensePlateTextBox.Text);
-            Assert.Equal("Toyota", window.BrandTextBox.Text);
-            Assert.Equal("Corolla", window.ModelTextBox.Text);
-            Assert.Equal("1234567890", window.VINTextBox.Text);
-            Assert.Equal("2020", window.YearTextBox.Text);
+            
+            Assert.AreEqual("A123BC", window.LicensePlateTextBox.Text);
+            Assert.AreEqual("Toyota", window.BrandTextBox.Text);
+            Assert.AreEqual("Corolla", window.ModelTextBox.Text);
+            Assert.AreEqual("1234567890", window.VINTextBox.Text);
+            Assert.AreEqual("2020", window.YearTextBox.Text);
         }
     }
 }

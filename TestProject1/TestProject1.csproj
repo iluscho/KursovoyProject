@@ -37,7 +37,7 @@
   <ItemGroup>
     <ProjectReference Include="..\KursovoyProject\KursovoyProject.csproj" />
 	<Reference Include="PresentationFramework" />
-	  <PackageReference Include="Microsoft.Windows.Compatibility" Version="4.0.0.0" />
+	  <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.0.0" />
   </ItemGroup>
 
 </Project>
