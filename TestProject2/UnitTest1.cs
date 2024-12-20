@@ -9,6 +9,7 @@ namespace TestProject2
         public string Model { get; set; }
         public string VIN { get; set; }
         public int Year { get; set; }
+        public int ClientID { get; set; }
     }
 
     [TestFixture]
