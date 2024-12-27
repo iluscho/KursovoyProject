@@ -15,6 +15,7 @@ namespace KursovoyProject
             _visit = visit;
             _carID = carID;
             CarIDTextBox.Text = _carID.ToString();
+            VisitDateTextBox.Text = DateTime.Now.ToString();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

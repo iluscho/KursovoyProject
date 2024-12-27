@@ -10,17 +10,15 @@
         <Label Content="CarID:" />
         <TextBox Name="CarIDTextBox"/>
 
-        <Label Content="EmpID:" />
+        <Label Content="ID работника:" />
         <TextBox Name="EmpIDTextBox"/>
 
-        <Label Content="VisitDate:" />
+        <Label Content="Дата посещения:" />
         <TextBox Name="VisitDateTextBox"/>
 
-        <Label Content="Desc:" />
+        <Label Content="Описание:" />
         <TextBox Name="DescTextBox"/>
 
-        <Label Content="Status:" />
-        <TextBox Name="StatusTextBox"/>
 
 
         <Button Content="Сохранить" Margin="0,10,0,0" Click="SaveButton_Click" />
