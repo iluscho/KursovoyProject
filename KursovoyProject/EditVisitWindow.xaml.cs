@@ -23,7 +23,6 @@ namespace KursovoyProject
             {
                 using (var context = new IlyaServiceTemp1Entities())
                 {
-                    // Загрузка данных о визите
                     var car = context.ClientCars.FirstOrDefault(c => c.CarID == _visit.CarID);
                     var emp = context.Employees.FirstOrDefault(e => e.EmpID == _visit.EmpID);
 
@@ -34,7 +33,6 @@ namespace KursovoyProject
                     DescTextBox.Text = _visit.Description;
                     statusComboBox.Text = _visit.Status;
 
-                    // Загрузка запчастей для визита
                     LoadPartsForVisit();
                 }
             }
@@ -96,7 +94,7 @@ namespace KursovoyProject
                 var addWindow = new AddRepairPartWindow(_visit);
                 if (addWindow.ShowDialog() == true)
                 {
-                    LoadPartsForVisit(); // Обновляем список запчастей
+                    LoadPartsForVisit();
                     MessageBox.Show("Запчасть успешно добавлена.");
                 }
             }
@@ -117,9 +115,8 @@ namespace KursovoyProject
                     using (var context = new IlyaServiceTemp1Entities())
                     {
                         int startIndex = selectedPart.IndexOf("ID:") + 3;
-                        if (startIndex >= 3) // Убедимся, что "ID:" найден
+                        if (startIndex >= 3)
                         {
-                            // Находим конец числа
                             int endIndex = selectedPart.IndexOf(')', startIndex);
                             string id = selectedPart.Substring(startIndex, endIndex - startIndex).Trim();
                             int idint = Convert.ToInt32(id);

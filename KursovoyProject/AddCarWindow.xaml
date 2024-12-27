@@ -20,7 +20,7 @@
         <TextBox Name="ModelTextBox" />
 
         <Label Content="VIN:" />
-        <TextBox Name="VINTextBox" />
+        <TextBox Name="VINTextBox" TextChanged="VINTextBox_TextChanged" />
 
         <Label Content="Год:" />
         <TextBox Name="YearTextBox" />

@@ -22,9 +22,8 @@ namespace KursovoyProject
                         .Where(car => string.IsNullOrEmpty(searchTerm) ||
                                       car.LicensePlate.Contains(searchTerm) ||
                                       car.VIN.Contains(searchTerm))
-                        .ToList(); // Загружаем все записи в память
+                        .ToList();
 
-                    // Форматируем строку уже после того, как данные загружены
                     var formattedCars = carsQuery
                         .Select(car => $"{car.LicensePlate} - {car.Brand} {car.Model} (VIN: {car.VIN})  (ID: {car.CarID}) ")
                         .ToList();
@@ -66,12 +65,11 @@ namespace KursovoyProject
 
                         if (car != null)
                         {
-                            // Предположим, у вас есть форма или диалоговое окно для редактирования данных
-                            var editWindow = new EditCarWindow(car); // Передаём выбранный объект
-                            if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                            var editWindow = new EditCarWindow(car);
+                            if (editWindow.ShowDialog() == true) 
                             {
-                                context.SaveChanges(); // Сохраняем изменения в базе данных
-                                LoadCarsFromDatabase(); // Обновляем список
+                                context.SaveChanges(); 
+                                LoadCarsFromDatabase();
                             }
                         }
                         else
@@ -96,17 +94,12 @@ namespace KursovoyProject
             var selectedCar = listBox.SelectedItem as string;
             if (selectedCar != null)
             {
-
-                // Извлекаем подстроку, содержащую "ID:"
                 int startIndex = selectedCar.IndexOf("ID:") + 3;
-                if (startIndex >= 3) // Убедимся, что "ID:" найден
+                if (startIndex >= 3)
                 {
-                    // Находим конец числа
                     int endIndex = selectedCar.IndexOf(')', startIndex);
                     string id = selectedCar.Substring(startIndex, endIndex - startIndex).Trim();
 
-
-                    // Преобразуем в число и открываем новое окно
                     if (int.TryParse(id, out int idint))
                     {
                         Window VisitsWindow = new VisitsWindow(idint);
@@ -132,17 +125,16 @@ namespace KursovoyProject
             {
                 using (var context = new IlyaServiceTemp1Entities())
                 {
-                    // Открываем окно добавления
-                    var newCar = new ClientCars(); // Создаём новый объект
+                    var newCar = new ClientCars();
                     Clients client = new Clients();
-                    var addWindow = new AddCarWindow(newCar, client); // Передаём его в окно
+                    var addWindow = new AddCarWindow(newCar, client);
 
-                    if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
+                    if (addWindow.ShowDialog() == true)
                     {
-                        context.ClientCars.Add(newCar); // Добавляем новую запись в контекст
-                        context.SaveChanges(); // Сохраняем изменения в базе данных
+                        context.ClientCars.Add(newCar);
+                        context.SaveChanges();
                         MessageBox.Show("Новая запись успешно добавлена.");
-                        LoadCarsFromDatabase(); // Обновляем список
+                        LoadCarsFromDatabase();
                     }
                 }
             }

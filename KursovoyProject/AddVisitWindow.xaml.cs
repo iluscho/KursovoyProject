@@ -32,7 +32,6 @@ namespace KursovoyProject
                         VisitDate = DateTime.Now
                     };
 
-                    // Попробуем преобразовать EmpID
                     if (int.TryParse(EmpIDTextBox.Text, out int empID))
                     {
                         newCarVisit.EmpID = empID;
@@ -43,7 +42,6 @@ namespace KursovoyProject
                         return;
                     }
 
-                    // Добавляем новую запись в таблицу CarVisits
                     context.CarVisits.Add(newCarVisit);
                     context.SaveChanges();
 

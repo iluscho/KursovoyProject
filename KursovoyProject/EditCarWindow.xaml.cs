@@ -38,7 +38,6 @@ namespace KursovoyProject
         {
             try
             {
-                // Обновляем объект новыми значениями
                 _car.LicensePlate = LicensePlateTextBox.Text;
                 _car.Brand = BrandTextBox.Text;
                 _car.Model = ModelTextBox.Text;

@@ -38,9 +38,8 @@ namespace KursovoyProject
                                       customer.Address.Contains(searchTerm) ||
                                       customer.Email.Contains(searchTerm))
 
-                        .ToList(); // Загружаем все записи в память
+                        .ToList();
 
-                    // Форматируем строку уже после того, как данные загружены
                     var formattedCustomers = customersQuery
                         .Select(customer => $"{customer.FullName} - {customer.Phone} {customer.Address} (ID: {customer.ClientID})")
                         .ToList();
@@ -77,16 +76,15 @@ namespace KursovoyProject
             {
                 using (var context = new IlyaServiceTemp1Entities())
                 {
-                    // Открываем окно добавления
-                    var newCustomer = new Clients(); // Создаём новый объект
-                    var addWindow = new AddCustomerWindow(newCustomer); // Передаём его в окно
+                    var newCustomer = new Clients();
+                    var addWindow = new AddCustomerWindow(newCustomer);
 
-                    if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
+                    if (addWindow.ShowDialog() == true)
                     {
-                        context.Clients.Add(newCustomer); // Добавляем новую запись в контекст
-                        context.SaveChanges(); // Сохраняем изменения в базе данных
+                        context.Clients.Add(newCustomer);
+                        context.SaveChanges();
                         MessageBox.Show("Новая запись успешно добавлена.");
-                        LoadCustomersFromDatabase(); // Обновляем список
+                        LoadCustomersFromDatabase();
                     }
                 }
             }
@@ -112,11 +110,11 @@ namespace KursovoyProject
 
                         if (customer != null)
                         {
-                            var editWindow = new EditCustomerWindow(customer); // Передаём выбранный объект
-                            if (editWindow.ShowDialog() == true) // Если изменения подтверждены
+                            var editWindow = new EditCustomerWindow(customer);
+                            if (editWindow.ShowDialog() == true)
                             {
-                                context.SaveChanges(); // Сохраняем изменения в базе данных
-                                LoadCustomersFromDatabase(); // Обновляем список
+                                context.SaveChanges();
+                                LoadCustomersFromDatabase();
                             }
                         }
                         else

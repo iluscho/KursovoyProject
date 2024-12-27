@@ -35,26 +35,22 @@ namespace KursovoyProject
             {
                 using (var context = new IlyaServiceTemp1Entities())
                 {
-                    // Ищем клиента по имени
-
                     var client = context.Clients.FirstOrDefault(c => c.FullName == FullNameTextBox.Text);
 
                     if (client != null)
                     {
-                        _car.ClientID = client.ClientID; // Присваиваем найденный ID
+                        _car.ClientID = client.ClientID; 
                     }
                     else
                     {
                         MessageBox.Show("Клиент с таким именем не найден. Проверьте правильность ввода.");
-                        return; // Останавливаем сохранение, если клиент не найден
+                        return; 
                     }
 
-                    // Заполняем остальные поля
                     _car.LicensePlate = LicensePlateTextBox.Text;
                     _car.Brand = BrandTextBox.Text;
                     _car.Model = ModelTextBox.Text;
 
-                    //_car.VIN = VINTextBox.Text;
 
                     if (VINTextBox.Text.Length == 17)
                     {
@@ -68,7 +64,7 @@ namespace KursovoyProject
                     if (int.TryParse(YearTextBox.Text, out int year) && year > 1950 && year <= DateTime.Now.Year)
                     {
                         _car.Year = year;
-                        DialogResult = true; // Закрываем окно с подтверждением
+                        DialogResult = true;
                     }
                     else
                     {
@@ -82,5 +78,9 @@ namespace KursovoyProject
             }
         }
 
+        private void VINTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

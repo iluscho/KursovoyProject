@@ -50,7 +50,7 @@ namespace KursovoyProject
                 MessageBox.Show(ex.Message);
             }
 
-            DialogResult = true; // Указываем, что изменения подтверждены
+            DialogResult = true;
             Close();
         }
         private void LoadCarsFromDatabase(Clients customer)
@@ -61,9 +61,8 @@ namespace KursovoyProject
                 {
                     var carsQuery = context.ClientCars
                         .Where(car => car.ClientID == customer.ClientID)
-                        .ToList(); // Загружаем все записи в память
+                        .ToList();
 
-                    // Форматируем строку уже после того, как данные загружены
                     var formattedCars = carsQuery
                         .Select(car => $"{car.LicensePlate} - {car.Brand} {car.Model} (VIN: {car.VIN})  (ID: {car.CarID}) ")
                         .ToList();
@@ -83,14 +82,13 @@ namespace KursovoyProject
             {
                 using (var context = new IlyaServiceTemp1Entities())
                 {
-                    // Открываем окно добавления
-                    var newCar = new ClientCars(); // Создаём новый объект
-                    var addWindow = new AddCarWindow(newCar, _customer); // Передаём его в окно
+                    var newCar = new ClientCars();
+                    var addWindow = new AddCarWindow(newCar, _customer);
 
-                    if (addWindow.ShowDialog() == true) // Если пользователь подтвердил добавление
+                    if (addWindow.ShowDialog() == true)
                     {
-                        context.ClientCars.Add(newCar); // Добавляем новую запись в контекст
-                        context.SaveChanges(); // Сохраняем изменения в базе данных
+                        context.ClientCars.Add(newCar);
+                        context.SaveChanges();
                         MessageBox.Show("Новая запись успешно добавлена.");
                     }
                 }
@@ -108,17 +106,14 @@ namespace KursovoyProject
             {
                 MessageBox.Show($"Вы выбрали: {selectedCar}");
 
-                // Извлекаем подстроку, содержащую "ID:"
                 int startIndex = selectedCar.IndexOf("ID:") + 3;
-                if (startIndex >= 3) // Убедимся, что "ID:" найден
+                if (startIndex >= 3)
                 {
-                    // Находим конец числа
                     int endIndex = selectedCar.IndexOf(')', startIndex);
                     string id = selectedCar.Substring(startIndex, endIndex - startIndex).Trim();
 
                     MessageBox.Show($"ID: {id}");
 
-                    // Преобразуем в число и открываем новое окно
                     if (int.TryParse(id, out int idint))
                     {
                         Window VisitsWindow = new VisitsWindow(idint);
